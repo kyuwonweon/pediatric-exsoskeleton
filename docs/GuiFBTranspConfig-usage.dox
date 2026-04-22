@@ -1,0 +1,14 @@
+\subsubsection usage Usage
+\verbatim
+<node name="micropython_logger" pkg="micropython_logger" type="micropython_logger">
+  <param name="enable_Controller" type="bool" value="False" />
+  <param name="enable_FF" type="bool" value="False" />
+  <param name="tau_int_des" type="double" value="0.0" />
+  <param name="P_fb" type="double" value="0.5" />
+  <param name="I_fb" type="double" value="0.0" />
+  <param name="D_fb" type="double" value="0.02" />
+  <param name="alpha_test" type="double" value="0.0" />
+  <param name="filter_loadcell" type="double" value="0.2" />
+</node>
+\endverbatim
+

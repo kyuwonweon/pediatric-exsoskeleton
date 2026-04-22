@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="micropython_logger" pkg="micropython_logger" type="micropython_logger">
+  <param name="freq_value" type="double" value="0.5" />
+  <param name="enable_controller" type="bool" value="False" />
+  <param name="use_FF" type="bool" value="False" />
+  <param name="use_Energy_var_freq" type="bool" value="False" />
+  <param name="K_stiffness" type="double" value="2.0" />
+  <param name="B_damping" type="double" value="0.1" />
+</node>
+\endverbatim
+

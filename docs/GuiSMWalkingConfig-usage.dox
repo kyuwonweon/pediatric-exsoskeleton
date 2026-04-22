@@ -1,0 +1,24 @@
+\subsubsection usage Usage
+\verbatim
+<node name="micropython_logger" pkg="micropython_logger" type="micropython_logger">
+  <param name="enable_controller" type="bool" value="False" />
+  <param name="stance_q_eq" type="double" value="0.0" />
+  <param name="stance_q_dot_eq" type="double" value="0.0" />
+  <param name="stance_dt" type="double" value="1.0" />
+  <param name="stance_K" type="double" value="0.1" />
+  <param name="stance_B" type="double" value="0.01" />
+  <param name="earlySwing_q_eq" type="double" value="50.0" />
+  <param name="earlySwing_q_dot_eq" type="double" value="0.0" />
+  <param name="earlySwing_dt" type="double" value="2.0" />
+  <param name="earlySwing_K" type="double" value="0.1" />
+  <param name="earlySwing_B" type="double" value="0.01" />
+  <param name="lateSwing_q_eq" type="double" value="0.0" />
+  <param name="lateSwing_q_dot_eq" type="double" value="0.0" />
+  <param name="lateSwing_dt" type="double" value="2.0" />
+  <param name="lateSwing_K" type="double" value="0.1" />
+  <param name="lateSwing_B" type="double" value="0.01" />
+  <param name="vel_tresh" type="double" value="10.0" />
+  <param name="Fz_tresh" type="double" value="10.0" />
+</node>
+\endverbatim
+

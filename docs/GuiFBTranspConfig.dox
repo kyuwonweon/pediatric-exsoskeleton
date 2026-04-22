@@ -1,0 +1,13 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~enable_Controller" : \b [bool] Enable FB controller min: False, default: False, max: True
+- \b "~enable_FF" : \b [bool] Use FF forces min: False, default: False, max: True
+- \b "~tau_int_des" : \b [double] Desired int torque profile min: -5.0, default: 0.0, max: 5.0
+- \b "~P_fb" : \b [double] Prop PID param min: 0.0, default: 0.5, max: 1.5
+- \b "~I_fb" : \b [double] Integral min: 0.0, default: 0.0, max: 0.1
+- \b "~D_fb" : \b [double] Derivative min: 0.0, default: 0.02, max: 0.1
+- \b "~alpha_test" : \b [double] rescaling factor for test, closer to zero lower torque min: 0.0, default: 0.0, max: 1.0
+- \b "~filter_loadcell" : \b [double] Load cell filtering closer to 0 the more filtered the signal min: 0.0, default: 0.2, max: 1.0
+

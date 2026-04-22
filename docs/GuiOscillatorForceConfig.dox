@@ -1,0 +1,21 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~enable_controller" : \b [bool] Enable controller min: False, default: False, max: True
+- \b "~use_FF" : \b [bool] Use FF forces min: False, default: False, max: True
+- \b "~use_Energy_var_freq" : \b [bool] Use Energy to modulate freq min: False, default: False, max: True
+- \b "~freq_value" : \b [double] A double parameter representing freq adaptive oscillator min: 0.1, default: 0.25, max: 0.5
+- \b "~min_angle" : \b [double] Lower bound of the oscillation min: -90.0, default: -50.0, max: 80.0
+- \b "~max_angle" : \b [double] Upper bound of the oscillation min: 10.0, default: 60.0, max: 90.0
+- \b "~K_stiffness" : \b [double] A double parameter representing stiffness controller min: 0.0, default: 2.0, max: 3.0
+- \b "~B_damping" : \b [double] A double parameter representing damping controller min: 0.0, default: 0.1, max: 0.5
+- \b "~lb" : \b [double] Hysteresis lower bound min: -10.0, default: -2.0, max: 0.0
+- \b "~ub" : \b [double] Hysteresis upper bound min: 0.0, default: 3.0, max: 10.0
+- \b "~K_1" : \b [double] Residual work scaling factor 1 min: 0.01, default: 0.3, max: 1.0
+- \b "~K_2" : \b [double] Residual work scaling factor 2 min: 150.0, default: 200.0, max: 250.0
+- \b "~forget_factor" : \b [double] Forget factor res work: closer to 1 the more it is remember from the past min: 0.1, default: 0.99, max: 1.0
+- \b "~filt_loadcell" : \b [double] Load cell filtering closer to 0 the more filtered the signal min: 0.0, default: 0.2, max: 1.0
+- \b "~mass_foot" : \b [double] mass of the foot attached to the loadcell min: 0.0, default: 1.0, max: 2.0
+- \b "~l_foot" : \b [double] distance from the loadcell and the weight min: 0.0, default: 0.15, max: 0.5
+

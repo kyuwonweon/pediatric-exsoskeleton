@@ -1,0 +1,20 @@
+\subsubsection usage Usage
+\verbatim
+<node name="micropython_logger" pkg="micropython_logger" type="micropython_logger">
+  <param name="enable_FF" type="bool" value="False" />
+  <param name="robot_state_Swing" type="bool" value="True" />
+  <param name="mass_thigh" type="double" value="0.2" />
+  <param name="mass_shank" type="double" value="3.0" />
+  <param name="l_com_thigh" type="double" value="0.1" />
+  <param name="l_com_shank" type="double" value="0.15" />
+  <param name="k_spring" type="double" value="0.0124" />
+  <param name="eq_angle" type="double" value="-29.85" />
+  <param name="b" type="double" value="0.02" />
+  <param name="v_th" type="double" value="3.0" />
+  <param name="stic" type="double" value="0.003" />
+  <param name="coul" type="double" value="0.25" />
+  <param name="I_thigh" type="double" value="0.002" />
+  <param name="I_shank" type="double" value="0.002" />
+</node>
+\endverbatim
+
