@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.8)
 project(micropython_logger)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -12,8 +12,7 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 
-ament_python_install_package(${PROEJCT_NAME})
-
+ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/ROS2tcp.py
   scripts/ROS2udp.py
