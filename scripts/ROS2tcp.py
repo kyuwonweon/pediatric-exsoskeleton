@@ -8,12 +8,10 @@ from rclpy.node import Node
 import numpy as np
 from std_msgs.msg import Float64MultiArray
 
-from dynamic_reconfigure.server import Server
-from micropython_logger.cfg import GuiOscillatorPosConfig, GuiOscillatorForceConfig, GuiFFCalConfig, GuiFBTranspConfig, GuiTeleopConfig, GuiSMWalkingConfig
+from std_srvs.srv import Trigger
+from rcl_interfaces.msg import SetParametersResult
 
-from std_srvs.srv import Trigger, TriggerResponse
-from rcl_intefaces.msg import SetParametersResult 
-
+from micropython_logger.param import load_controller_params
 """
 This class is design for slower but more reliable comunication 
 in particular this class manages comunication of the kind
@@ -31,8 +29,8 @@ class ROS2tcp(Node):
         robot = self.get_parameter('robot').get_parameter_value().string_value
         ctrl = self.get_parameter('ctrl').get_parameter_value().string_value 
 
-        self.get_logger.info(f"Robot: {robot}")
-        self.get_logger.info(f"Ctrl: {ctrl}")
+        self.get_logger().info(f"Robot: {robot}")
+        self.get_logger().info(f"Ctrl: {ctrl}")
 
         port = 12345
 
@@ -49,24 +47,21 @@ class ROS2tcp(Node):
 
         if ctrl == "Teleop":
             header = 3
-            config_params = GuiTeleopConfig
         if ctrl == "SMWalking":
             header = 4
-            config_params = GuiSMWalkingConfig
         elif ctrl == "OscillatorPos":
             header = 6
-            config_params = GuiOscillatorPosConfig
         elif ctrl == "OscillatorForce":
             header = 5
-            config_params = GuiOscillatorForceConfig
         elif ctrl == "FF":
             header = 1
-            config_params = GuiFFCalConfig
         elif ctrl == "FB":
             header = 2
-            config_params = GuiFBTranspConfig
         else:
             header = 0  # Fallback
+
+        # Dynamically Load Tuning Parameters
+        self.param_idx_map = load_controller_params(self, ctrl)
 
         # define socket interfaces
         self.s = socket.socket()
@@ -88,9 +83,6 @@ class ROS2tcp(Node):
         # elif index 2 ==1 --> load-cell calibration[int]
         self.robot_msg = np.zeros(4)
 
-
-        # Create a Dynamic Reconfigure Server
-        srv = Server(config_params, self.callback)
         self.service_IMU_Cal = self.create_service(Trigger, 'IMU_calibration',
                                                    self.imu_cal_callback_)
 
@@ -98,6 +90,7 @@ class ROS2tcp(Node):
                                                 Trigger,
                                                 'LoadCell_calibration',
                                                 self.LoadCell_cal_callback_)
+        self.add_on_set_parameters_callback(self.parameter_update_callback)
 
         
     def send_and_Ack_msg(self):
@@ -119,11 +112,11 @@ class ROS2tcp(Node):
 
             if data == msg:
                 success = True
-                self.get_logger().info("----Received confirmation, Time to go and comeback: {elapsed_ms:.2f} ms")
+                self.get_logger().info(f"----Received confirmation, Time to go and comeback: {elapsed_ms:.2f} ms")
             else:
                 self.get_logger().info("Wrong message back")
-                self.get_logger().info("Rcv: ", data.decode())
-                self.get_logger().info("Sent: ", msg.decode())
+                self.get_logger().info(f"Rcv: {data}")
+                self.get_logger().info(f"Sent: {msg.decode()}")
                 self.get_logger().info("PROBLEM!!!!!")
                 
             self.get_logger().info("-------------------------------")
@@ -138,19 +131,26 @@ class ROS2tcp(Node):
             self.get_logger().info("Client not yet connected")
         return success
 
-    def callback(self, config, level):
-        # rospy.loginfo("Reconfigure Request: {freq_value}, {enable_controller}, {use_FF}, {use_Energy_var_freq}, {K_stiffness}, {B_damping}".format(**config))
+    def parameter_update_callback(self, params):
         # You can perform actions based on the new parameter values here
         # call back of dyn reconfig for the controller
-        self.get_logger().info("---------------------")
-        for k_i, k in enumerate(config.keys()):
-            if k!= "groups":
-                self.get_logger().info(k, config[k])
-                self.ctrl_msg[k_i] = (float(config[k]))
-        self.get_logger().info("---------------------")
+        for param in params:
+            if param.name in self.param_idx_map:
+                idx = self.param_idx_map[param.name]
+
+                if param.type_ == param.Type.DOUBLE:
+                    val = param.double_value 
+                elif param.type_ == param.Type.INTEGER:
+                    val = float(param.integer_value)
+                elif param.type_ == param.Type.BOOL:
+                    val = 1.0 if param.bool_value else 0.0
+                else:
+                    continue 
+                self.ctrl_msg[idx] = val
+                self.get_logger().info(f"Updated {param.name} to {val} at index {idx}")
         self.send_and_Ack_msg()
 
-        return config
+        return SetParametersResult(successful=True)
 
     def imu_cal_callback_(self, req, res):
         self.get_logger().info("IMU Cal called!")
@@ -166,7 +166,7 @@ class ROS2tcp(Node):
         return res
 
     def LoadCell_cal_callback_(self, req, res):
-        self.get_logger.info('LOAD cell cal called!')
+        self.get_logger().info('LOAD cell cal called!')
         self.robot_msg[1] = 1.0
         success = self.send_and_Ack_msg()
 
@@ -175,7 +175,7 @@ class ROS2tcp(Node):
             res.message = "Load cell cal completed successfully."
         else:
             res.message = "Load cell cal Not completed."
-        self.robot_msg[1] = 0
+        self.robot_msg[1] = 0.0
         return res
 
 
@@ -183,7 +183,7 @@ def main(args=None):
     rclpy.init(args=args)
     r2t = ROS2tcp()
     rclpy.spin(r2t)
-    r2t.s.accept
+    r2t.s.close()
     r2t.destroy_node()
     if rclpy.ok():
         rclpy.shutdown()
