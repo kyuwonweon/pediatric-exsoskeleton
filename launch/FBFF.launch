@@ -1,10 +1,10 @@
 <launch>
 
-    <node pkg= "micropython_logger" type = "ROS2tcp.py" name= "ROS2tcp_FB" output = "screen">
+    <node pkg= "micropython_logger" exec = "ROS2tcp.py" name= "ROS2tcp_FB" output = "screen">
         <param name="ctrl" value = "FB" />
     </node>
 
-    <node pkg= "micropython_logger" type = "ROS2tcp.py" name= "ROS2tcp_FF" output = "screen">
+    <node pkg= "micropython_logger" exec = "ROS2tcp.py" name= "ROS2tcp_FF" output = "screen">
         <param name="ctrl" value = "FF" />
     </node>
 

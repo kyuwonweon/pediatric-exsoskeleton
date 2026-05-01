@@ -1,0 +1,150 @@
+{
+  "comment_robots": {
+    "Comment_order": "The order if multiple will be left->right and hip->knee-ankle"
+  },
+  "CubeMars_BenchTop": {
+    "K_initial": 1.0,
+    "B_initial": 0.1,
+    "K_bounds": [0.0, 3.0],
+    "B_bounds": [0.0, 0.5]
+  },
+  "foxKnee_PassiveFeet": {
+    "I": 0.002,
+    "mass": 2.55,
+    "mass_foot": 0.5,
+    "l_com": 0.24,
+    "l_foot": 0.15,
+    "K_spring": 0.0124,
+    "eq_angle": -29.85,
+    "b": 0.03,
+    "v_th": 3,
+    "stic_p" : -0.0017,
+    "coul_p": -0.185,
+    "tau_offset": 0.0,
+    "K_initial": 1.0,
+    "B_initial": 0.1,
+    "K_bounds": [0.0, 3.0],
+    "B_bounds": [0.0, 0.5],
+    "My_offset": 2.2,
+    "ratio_jlc": 2,
+    "filt_loadcell": 1.0
+  },
+  "foxKnee_KneeExo": {
+    "I": [0.002,0.002],
+    "mass": [0.25, 3.0],
+    "mass_foot": 0.3,
+    "l_com": [0.15, 0.15],
+    "l_foot": 0.01,
+    "K_spring": 0.0124,
+    "eq_angle": -29.85,
+    "b": 0.02,
+    "v_th": 3,
+    "stic_p" : 0.0035,
+    "coul_p": 0.25,
+    "tau_offset": 0.0,
+    "K_initial": 0.0,
+    "B_initial": 0.0,
+    "K_bounds": [0.0, 3.0],
+    "B_bounds": [0.0, 0.5],
+    "My_offset": 0.6,
+    "ratio_jlc": 2,
+    "filt_loadcell": 0.2
+  },
+  "reporter": {
+    "dim_robot_msg": 10,
+    "dim_ctrl_msg": 10,
+    "dim_decorator_msg": 5,
+    "dim_ctrl_fact_msg": 1,
+    "dim_rep_msg": 1,
+    "port": {
+      "FOX_LEG_SHADOW": 12344,
+      "FOX_LEG_TAILS": 12345,
+      "CubeMars_BenchTop": 12346
+    },
+    "comment_reporter": "port should be changed every time u add a board"
+  },
+  "input_manager": {
+    "dim_robot_cmd": 4,
+    "dim_ctrl_cmd": 20,
+    "dim_ctrl_fact_cmd": 1
+  },
+  "ctrlFactory": {
+    "default_ctrl": "ctrlInterface",
+    "available_ctrl": ["ctrlInterface", "ctrlSMWalking"]
+  },
+  "comment_ctrl": {
+    "Comment_ports": "All controllers share the same single port but they have different headers to avoid overlapping in comunication",
+    "Comment_robot": "Also different robots have different IP"
+  },
+  "ctrlInterface":{
+    "header": 0,
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "decorators" : []
+  },
+  "ctrlFFTransp": {
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "ROBOT_STATE" : 1,
+    "header": 1,
+    "decorators": []
+  },
+  "ctrlFBTranspSwing": {
+    "P_fb": 0.5,
+    "I_fb": 0.0,
+    "D_fb": 0.02,
+    "FEEDFORWARD_TORQUE" : 0.0,
+    "ROBOT_STATE" : 1,
+    "header": 2,
+    "decorators": ["ctrlFFTransp"]
+  },
+  "ctrlTelop": {
+    "K": 0.5,
+    "B": 0.1,
+    "eq_angle": 0,
+    "header": 3,
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "decorators" : []
+  },
+  "ctrlSMWalking": {
+    "K": 0.5,
+    "B": 0.1,
+    "eq_angle": 0,
+    "header": 4,
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "decorators" : []
+  },
+  "ctrlOscillatorForce": {
+    "K": 1.0,
+    "B": 0.1,
+    "eq_angles": [10, 60],
+    "freq_oscillator": 0.5,
+    "freq_bounds": [0.25, 0.75],
+    "res_work_scaling_factors": [0.3, 200],
+    "alpha_ext_torque": 0.0,
+    "ext_torque_hysteresis_bounds": [-1, 1],
+    "FORGET_FACTOR": 0.99,
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "header": 5,
+    "decorators" : ["ctrlFFTransp"]
+  },
+  "ctrlOscillatorPos": {
+    "K": 1.0,
+    "B": 0.1,
+    "amplitudes": [-12, 20, -2, -10],
+    "offset": 20,
+    "freq_oscillator": 0.5,
+    "freq_bounds": [0.25, 0.75],
+    "k_freq": 0.0,
+    "k_phase": 0.0,
+    "k_amp": 0.0,
+    "FEEDFORWARD_TORQUE" :  0.0,
+    "header": 6,
+    "decorators" : ["ctrlFFTransp"]
+  },
+  "comment_current": {
+    "comm": "During debug mode keep small (2) while the max value that could be use is around 20Amp"
+  },
+  "servo": {
+    "CURRENT_LIMIT" : 1.0
+  }
+}
+
