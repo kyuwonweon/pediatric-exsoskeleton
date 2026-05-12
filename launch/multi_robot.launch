@@ -1,27 +1,27 @@
 <launch>
     <!-- Shadow in/out communication -->
-    <node pkg= "micropython_logger" type = "udp2ROS.py" name= "udp2ROS_Shadow" output = "screen">
+    <node pkg= "micropython_logger" exec = "udp2ROS.py" name= "udp2ROS_Shadow" output = "screen">
         <param name="robot" value = "Shadow" />
     </node>
 
-    <node pkg= "micropython_logger" type = "ROS2udp.py" name= "ROS2udp_Shadow" output = "screen">
+    <node pkg= "micropython_logger" exec = "ROS2udp.py" name= "ROS2udp_Shadow" output = "screen">
         <param name="robot" value = "Shadow" />
         <param name="ctrl" value = "Teleop" />
     </node>
 
     <!-- Tails in/out communication -->
-    <node pkg= "micropython_logger" type = "udp2ROS.py" name= "udp2ROS_Tails" output = "screen">
+    <node pkg= "micropython_logger" exec = "udp2ROS.py" name= "udp2ROS_Tails" output = "screen">
         <param name="robot" value = "Tails" />
     </node>
 
-    <node pkg= "micropython_logger" type = "ROS2udp.py" name= "ROS2udp_Tails" output = "screen">
+    <node pkg= "micropython_logger" exec = "ROS2udp.py" name= "ROS2udp_Tails" output = "screen">
         <param name="robot" value = "Tails" />
         <param name="ctrl" value = "Teleop" />
     </node>
 
     <!-- Multirobot -->
-    <node pkg= "micropython_logger" type = "multi_robot.py" name= "multi_robot" output = "screen"/>
+    <node pkg= "micropython_logger" exec = "multi_robot.py" name= "multi_robot" output = "screen"/>
 
     <!-- rqt gui -->
-    <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui"/>
+    <node name="rqt_gui" pkg="rqt_gui" exec="rqt_gui"/>
 </launch>

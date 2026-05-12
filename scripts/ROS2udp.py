@@ -38,7 +38,7 @@ class ROS2udp(Node):
 
         if robot == "Tails":
             # self.receiver_ip= '192.168.0.68'
-            self.receiver_ip = '192.168.4.1' # in the case in which tails is the access point
+            self.receiver_ip = '192.168.0.202' # in the case in which tails is the access point
         elif robot == "Shadow":
             self.receiver_ip = '192.168.0.254'
         else:
@@ -176,11 +176,11 @@ class ROS2udp(Node):
                 idx = self.param_idx_map[param.name]
 
                 if param.type_ == param.Type.DOUBLE:
-                    val = param.double_value
+                    val = param.value
                 elif param.type_ == param.Type.INTEGER:
-                    val = float(param.integer_value)
+                    val = float(param.value)
                 elif param.type_ == param.Type.BOOL:
-                    val = 1.0 if param.bool_value else 0.0
+                    val = 1.0 if param.value else 0.0
                 else:
                     continue 
                 self.ctrl_msg[idx] = val

@@ -14,6 +14,7 @@ find_package(rcl_interfaces REQUIRED)
 
 ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
+  scripts/multi_robot.py
   scripts/ROS2tcp.py
   scripts/ROS2udp.py
   scripts/tcp2ROS.py
